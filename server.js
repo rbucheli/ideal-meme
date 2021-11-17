@@ -34,6 +34,18 @@ mongoose.connection
   .on("error", (error) => console.log(error));
 
 /// MODELS ///
+const productSchema = new mongoose.Schema({
+  title: String,
+  image: String,
+  genre: String,
+  description: String,
+  tag: String,
+  price: String,
+  quantity: Number
+});
+
+const Product = mongoose.model("Product", productSchema);
+// Does product need to be read?
 
 // MIIDDLEWARE //
 app.use(cors()); // to prevent cors errors, open access to all origins
@@ -41,10 +53,10 @@ app.use(morgan("dev")); // logging
 app.use(express.json()); // parse json bodies
 
 // ROUTES //
-app.get("/", async (req, res) => {
+app.get("/games", async (req, res) => {
   try {
-      // displays all units
-      res.json(await Unit.find({}));
+      // displays all products
+      res.json(await Product.find({}));
   } catch (error) {
       //send error
       res.status(400).json(error);
