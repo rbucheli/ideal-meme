@@ -45,7 +45,7 @@ const productSchema = new mongoose.Schema({
 });
 
 const Product = mongoose.model("Product", productSchema);
-// Does product need to be read?
+
 
 // MIIDDLEWARE //
 app.use(cors()); // to prevent cors errors, open access to all origins
@@ -53,6 +53,7 @@ app.use(morgan("dev")); // logging
 app.use(express.json()); // parse json bodies
 
 // ROUTES //
+//  Index
 app.get("/games", async (req, res) => {
   try {
       // displays all products
@@ -60,6 +61,41 @@ app.get("/games", async (req, res) => {
   } catch (error) {
       //send error
       res.status(400).json(error);
+  }
+});
+
+// Create
+app.post("/games", async (req, res) => {
+  try {
+      // send all games
+      res.json(await Product.create(req.body));
+  } catch (error) {
+      //send error
+      res.status(400).json(error);
+  }
+});
+
+// Delete
+app.delete("/games/:id", async (req, res) => {
+  try {
+    // send all products
+    res.json(await Product.findByIdAndRemove(req.params.id));
+  } catch (error) {
+    //send error
+    res.status(400).json(error);
+  }
+});
+
+// Update
+app.put("/games/:id", async (req, res) => {
+  try {
+    // send all products
+    res.json(
+      await Product.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    );
+  } catch (error) {
+    //send error
+    res.status(400).json(error);
   }
 });
 
