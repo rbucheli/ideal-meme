@@ -41,7 +41,8 @@ const productSchema = new mongoose.Schema({
   description: String,
   tag: String,
   price: String,
-  quantity: Number
+  quantity: Number,
+  handle: String
 });
 
 const Product = mongoose.model("Product", productSchema);
@@ -54,6 +55,16 @@ app.use(express.json()); // parse json bodies
 
 // ROUTES //
 //  Index
+app.get("/", async (req, res) => {
+  try {
+      // displays all products
+      res.json(await Product.find({}));
+  } catch (error) {
+      //send error
+      res.status(400).json(error);
+  }
+});
+
 app.get("/games", async (req, res) => {
   try {
       // displays all products
